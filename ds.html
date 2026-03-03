@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CephyOS — DrawBox</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="ds.css" />
+        <style>
+            
+        </style>
+    </head>
+<!--============================================================================================================================================================-->   
+    <body>
+        <div id="cephy-desktop">
+            <header>
+                <p class="move-down"></p>
+            </header>
+            <div style="position: absolute; top: 65px; left: 10px; z-index: 9999">
+                <script>
+                    NekoType = "peach";
+                </script>
+                <script src="https://webneko.net/n20171213.js"></script>
+            </div>
+            <aside class="desktop-sidebar">
+                <div class="widget">
+                    <div style="display: flex; justify-content: center">
+                        <img src="eyes.gif" alt="O_O" width="100%" />
+                    </div>
+                </div>
+                <div class="widget">
+                    <div class="widget-title">About Me</div>
+                    <p><em>Name:</em> Cephy</p>
+                    <small>She/they/totally gay</small>
+                    <p>I write about things, make games, and yap</p>
+                    <em>Welcome!</em>
+                </div>
+                <div class="widget">
+                    <div class="widget-title">Quick Links</div>
+                    <ul style="list-style: none; padding: 0">
+                        <li>
+                            <a href="index.html" style="color: #d17a8c">Home</a>
+                        </li>
+                        <li>
+                            <a href="Terrarium.html" style="color: #d17a8c">Terrarium Gallery</a>
+                        </li>
+                        <li>
+                            <a href="#" style="color: #d17a8c">Settings</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="widget">
+                    <div class="widget-title">Music</div>
+                    <div class="music-controls" style="text-align: center">
+                        <small id="song-name">DSi Lo Fi</small>
+                        <audio id="bg-music" loop>
+                            <source src="DSIshopLofi.wav" type="audio/mpeg" />
+                        </audio>
+                        <div style="margin-top: 10px">
+                            <button onclick="document.getElementById('bg-music').play()" class="win-btn">▶</button>
+                            <button onclick="document.getElementById('bg-music').pause()" class="win-btn">⏸</button>
+                            <input
+                                type="range"
+                                id="volume-slider"
+                                min="0"
+                                max="1"
+                                step="0.1"
+                                value="0.5"
+                                style="width: 80%; margin-top: 10px"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <!-- ===== DS SHELL ===== -->
+            <div class="ds-shell" id="ds-shell">
+                <div class="ds-lid">
+                    <div class="ds-top-bezel">
+                        <div class="ds-info-bar"><span>✦</span> DrawBox</div>
+                        <div class="ds-screen-top" id="drawings-grid"></div>
+                    </div>
+                </div>
+                <div class="ds-hinge"></div>
+                <div class="ds-body">
+                    <div
+                        class="ds-bottom-row"
+                        style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px"
+                    >
+                        <div
+                            style="
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                gap: 8px;
+                                flex-shrink: 0;
+                                width: 76px;
+                            "
+                        >
+                            <div class="ds-dpad" style="width: 70px; height: 70px; position: relative">
+                                <div
+                                    class="ds-dpad-row"
+                                    style="height: 30%; display: flex; justify-content: center"
+                                >
+                                    <div class="ds-dpad-btn ds-dpad-up" style="width: 30%; height: 100%"></div>
+                                </div>
+                                <div
+                                    class="ds-dpad-row"
+                                    style="height: 30%; display: flex; justify-content: space-between"
+                                >
+                                    <div class="ds-dpad-btn ds-dpad-left" style="width: 30%; height: 100%"></div>
+                                    <div style="width: 30%; height: 100%; background: var(--ds-color)"></div>
+                                    <div class="ds-dpad-btn ds-dpad-right" style="width: 30%; height: 100%"></div>
+                                </div>
+                                <div
+                                    class="ds-dpad-row"
+                                    style="height: 30%; display: flex; justify-content: center"
+                                >
+                                    <div class="ds-dpad-btn ds-dpad-down" style="width: 30%; height: 100%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ds-bottom-screen-wrap">
+                            <div class="ds-screen-bottom-inner">
+                                <div class="ds-tools-strip">
+                                    <label style="font-size: 9px; color: #9b7bb5">Size</label>
+                                    <input
+                                        type="range"
+                                        id="draw-size"
+                                        min="1"
+                                        max="30"
+                                        value="4"
+                                        style="width: 55px; accent-color: #d17a8c"
+                                    />
+                                    <button id="draw-eraser" class="g-btn">Eraser</button>
+                                    <button id="draw-clear" class="g-btn">Clear</button>
+                                    <div id="colour-preview" title="Current colour"></div>
+                                    <div style="display: flex; gap: 6px; align-items: center">
+                                        <input
+                                            type="text"
+                                            id="draw-author"
+                                            placeholder="Your name (optional)"
+                                            style="
+                                                flex: 1;
+                                                font-family: Pixelify Sans, sans-serif;
+                                                font-size: 10px;
+                                                padding: 3px 6px;
+                                                border: 1px solid rgba(255, 255, 255, 0.3);
+                                                background: rgba(0, 0, 0, 0.2);
+                                                color: #f0e0ff;
+                                                border-radius: 4px;
+                                            "
+                                        />
+                                    </div>
+                                    <button id="draw-submit" class="g-btn">Submit</button>
+                                </div>
+                                <canvas
+                                    id="draw-canvas"
+                                    width="800"
+                                    height="320"
+                                    style="
+                                        cursor:
+                                            url(cursorpen.png) 16 16,
+                                            crosshair;
+                                        display: block;
+                                        width: 100%;
+                                    "
+                                >
+                                </canvas>
+                                <div class="ds-colour-strip">
+                                    <div class="swatch-grid" id="swatch-grid"></div>
+                                    <div style="display: flex; gap: 3px; align-items: center; margin-top: 3px">
+                                        <div style="flex: 1; display: flex; flex-direction: column; gap: 2px">
+                                            <div class="rgb-row">
+                                                <label style="color: #f77a7a">R</label
+                                                ><input
+                                                    type="range"
+                                                    id="r-slider"
+                                                    min="0"
+                                                    max="255"
+                                                    value="209"
+                                                /><span id="r-val">209</span>
+                                            </div>
+                                            <div class="rgb-row">
+                                                <label style="color: #81c784">G</label
+                                                ><input
+                                                    type="range"
+                                                    id="g-slider"
+                                                    min="0"
+                                                    max="255"
+                                                    value="122"
+                                                /><span id="g-val">122</span>
+                                            </div>
+                                            <div class="rgb-row">
+                                                <label style="color: #64b5f6">B</label
+                                                ><input
+                                                    type="range"
+                                                    id="b-slider"
+                                                    min="0"
+                                                    max="255"
+                                                    value="140"
+                                                /><span id="b-val">140</span>
+                                            </div>
+                                        </div>
+                                        <div id="colour-preview-rgb"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            style="
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                gap: 8px;
+                                flex-shrink: 0;
+                                width: 76px;
+                            "
+                        >
+                            <div style="width: 70px; height: 70px; position: relative; white-space: nowrap">
+                                <div style="height: 33%; display: flex; justify-content: center">
+                                    <div class="ds-abxy-btn ds-btn-x" style="width: 33%; height: 100%"></div>
+                                </div>
+                                <div
+                                    style="
+                                        height: 33%;
+                                        display: flex;
+                                        justify-content: space-between;
+                                        align-items: center;
+                                    "
+                                >
+                                    <div class="ds-abxy-btn ds-btn-y" style="width: 33%; height: 100%"></div>
+                                    <div style="width: 33%; height: 100%"></div>
+                                    <div class="ds-abxy-btn ds-btn-a" style="width: 33%; height: 100%"></div>
+                                </div>
+                                <div style="height: 33%; display: flex; justify-content: center">
+                                    <div class="ds-abxy-btn ds-btn-b" style="width: 33%; height: 100%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        id="draw-status"
+                        style="
+                            font-size: 9px;
+                            color: #e8c8ff;
+                            text-align: center;
+                            min-height: 14px;
+                            margin-top: 4px;
+                        "
+                    ></div>
+                </div>
+            </div>
+            <!-- ===== END DS SHELL ===== -->
+            <!-- Hall of Fame -->
+            <div class="pastel-window" id="hof-window" style="top: 80px; left: 70%; width: 400px; height: 300px">
+                <div class="title-bar">
+                    <div class="title">⭐ Hall of Fame</div>
+                    <div class="window-controls"><span class="win-btn">⚊</span><span class="win-btn">▢</span></div>
+                </div>
+                <div class="content-area" style="padding: 10px; overflow-y: auto; height: 100%">
+                    <div
+                        id="hof-grid"
+                        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px"
+                    >
+                        <p style="font-size: 11px; color: #d17a8c">Loading...</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Chat -->
+            <div class="pastel-window" id="chat-window" style="top: 320px; left: 1030px; width: 350px; height: 520px;">
+                <div class="title-bar">
+                    <div class="title"><img src="buttons/speechbubble.gif" alt=""> CephChat</div>
+                    <div class="window-controls">
+                        <span class="win-btn" title="Minimize">⚊</span>
+                        <span class="win-btn" title="Maximize">▢</span>
+                        <span class="win-btn" title="Close">✕</span>
+                    </div>
+                </div>
+                <div class="content-area" style="display: flex; flex-direction: column; padding: 10px;">
+                    <div id="guestbook-messages" style="flex-grow: 1; overflow-y: auto; font-size: 11px; margin-bottom: 10px; border: 2px inset #d1c4e9; padding: 8px; color: #707070; background: linear-gradient(135deg, #f7e8fc 0%, #fefaf5 25%, #f9f5f0 25%, #f9f5f0 50%, #fefaf5 50%, #fefaf5 75%, #f9f5f0 75%, #f9f5f0 100%); background-size: 3px 3px; scroll-behavior: smooth; box-shadow: inset 1px 1px 0 rgba(255,255,255,0.8), inset -1px -1px 0 rgba(0,0,0,0.2);">
+                        Loading messages...
+                    </div>
+                    <div class="emoji-shelf" style="padding: 5px 8px; display: flex; gap: 5px; border-bottom: 2px solid #e5d3d8; margin-bottom: 8px; background: linear-gradient(135deg, #f8e8ed 0%, #f8e8ed 25%, #f0e2e5 25%, #f0e2e5 50%, #f8e8ed 50%, #f8e8ed 75%, #f0e2e5 75%, #f0e2e5 100%); background-size: 2px 2px;">
+                        <img src="buttons/gengar.gif" class="custom-emoji" data-code=" [hehe] " style="cursor:pointer; width:20px; image-rendering: pixelated;">
+                        <img src="buttons/totoro.gif" class="custom-emoji" data-code=" [baby] " style="cursor:pointer; width:20px; image-rendering: pixelated;">
+                        <img src="buttons/Moon.gif" class="custom-emoji" data-code=" [moon] " style="cursor:pointer; width:20px; image-rendering: pixelated;">
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 5px;">
+                        <input type="text" id="guest-name" placeholder="username" style="width:30%; border: 2px inset #d1c4e9; padding: 4px; font-family: 'Pixelify Sans'; font-size: 11px; background: linear-gradient(135deg, #fefaf5 0%, #fefaf5 25%, #f9f5f0 25%, #f9f5f0 50%, #fefaf5 50%, #fefaf5 75%, #f9f5f0 75%, #f9f5f0 100%); background-size: 3px 3px; color: #707070; box-shadow: inset 1px 1px 0 rgba(255,255,255,0.8), inset -1px -1px 0 rgba(0,0,0,0.2);">
+                        <div style="display: flex; gap: 5px;">
+                            <textarea id="guest-msg" placeholder="Type a message..." style="flex: 1; border: 2px inset #d1c4e9; padding: 4px; font-family: 'Pixelify Sans'; font-size: 11px; height: 50px; background: linear-gradient(135deg, #fefaf5 0%, #fefaf5 25%, #f9f5f0 25%, #f9f5f0 50%, #fefaf5 50%, #fefaf5 75%, #f9f5f0 75%, #f9f5f0 100%); background-size: 3px 3px; color: #707070; box-shadow: inset 1px 1px 0 rgba(255,255,255,0.8), inset -1px -1px 0 rgba(0,0,0,0.2); resize: none;"></textarea>
+                            <button id="send-btn" class="g-btn" style="padding: 6px 12px; white-space: nowrap;">Send</button>
+                        </div>
+                    </div>
+                </div>
+              </div>
+             
+              <!-- ================ END WINDOWS ================ -->
+            <div class="parallax-container">
+                <div class="parallax-layer layer-1" data-speed="0.002"></div>
+                <div class="parallax-layer layer-2" data-speed="0.005"></div>
+                <div class="parallax-layer layer-3" data-speed="0.01"></div>
+                <div class="parallax-layer layer-4" data-speed="0.02"></div>
+            </div>
+            <footer>
+                <button class="start-btn">Start</button>
+                <div class="taskbar-items"><span>CephyOS v1.0</span></div>
+                <div class="taskbar-clock" id="clock">12:00 PM</div>
+            </footer>
+        </div>
+
+<!--============================================================================================================================================================-->        
+        <script src="script.js" type="text/javascript"></script>
+        <script type="module" src="chat.js"></script>
+        <script>
+            async function addToHallOfFame(src) {
+                const metaRes = await fetch(
+                    `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/halloffame.json`,
+                    {
+                        headers: {
+                            Authorization: `token ${GITHUB_TOKEN}`,
+                        },
+                    }
+                );
+                const metaFile = await metaRes.json();
+                const current = JSON.parse(atob(metaFile.content));
+                if (current.drawings.includes(src)) {
+                    alert("Already in the Hall of Fame!");
+                    return;
+                }
+                current.drawings.push(src);
+                await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/halloffame.json`, {
+                    method: "PUT",
+                    headers: {
+                        Authorization: `token ${GITHUB_TOKEN}`,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        message: "Updated Hall of Fame",
+                        content: btoa(JSON.stringify(current)),
+                        sha: metaFile.sha,
+                    }),
+                });
+                alert("⭐ Added to Hall of Fame!");
+            }
+
+            const swatches = [
+                "#c0392b",
+                "#d17a8c",
+                "#ffd1dc",
+                "#d35400",
+                "#f39c12",
+                "#f9e79f",
+                "#1e8449",
+                "#81c784",
+                "#d5f5e3",
+                "#1a5276",
+                "#64b5f6",
+                "#d6eaf8",
+                "#6c3483",
+                "#bc98cc",
+                "#e8d5f5",
+                "#867fa3",
+                "#b5acdd",
+                "#eed2d8",
+                "#000000",
+                "#707070",
+                "#ffffff",
+            ];
+            let currentColor = "#d17a8c";
+
+            const swatchGrid = document.getElementById("swatch-grid");
+            swatches.forEach((color) => {
+                const s = document.createElement("div");
+                s.className = "swatch";
+                s.style.backgroundColor = color;
+                s.title = color;
+                if (color === currentColor) s.classList.add("active");
+                s.addEventListener("click", () => {
+                    setColor(color);
+                    rSlider.value = parseInt(color.slice(1, 3), 16);
+                    rVal.textContent = rSlider.value;
+                    gSlider.value = parseInt(color.slice(3, 5), 16);
+                    gVal.textContent = gSlider.value;
+                    bSlider.value = parseInt(color.slice(5, 7), 16);
+                    bVal.textContent = bSlider.value;
+                });
+                swatchGrid.appendChild(s);
+            });
+
+            function setColor(hex) {
+                currentColor = hex;
+                document.getElementById("colour-preview").style.backgroundColor = hex;
+                document.getElementById("colour-preview-rgb").style.backgroundColor = hex;
+                document
+                    .querySelectorAll(".swatch")
+                    .forEach((s) => s.classList.toggle("active", s.style.backgroundColor === hexToRgb(hex)));
+            }
+            function hexToRgb(hex) {
+                const r = parseInt(hex.slice(1, 3), 16),
+                    g = parseInt(hex.slice(3, 5), 16),
+                    b = parseInt(hex.slice(5, 7), 16);
+                return `rgb(${r}, ${g}, ${b})`;
+            }
+
+            const rSlider = document.getElementById("r-slider"),
+                gSlider = document.getElementById("g-slider"),
+                bSlider = document.getElementById("b-slider");
+            const rVal = document.getElementById("r-val"),
+                gVal = document.getElementById("g-val"),
+                bVal = document.getElementById("b-val");
+
+            function updateColorFromSliders() {
+                const r = parseInt(rSlider.value),
+                    g = parseInt(gSlider.value),
+                    b = parseInt(bSlider.value);
+                rVal.textContent = r;
+                gVal.textContent = g;
+                bVal.textContent = b;
+                setColor("#" + [r, g, b].map((v) => v.toString(16).padStart(2, "0")).join(""));
+            }
+            rSlider.addEventListener("input", updateColorFromSliders);
+            gSlider.addEventListener("input", updateColorFromSliders);
+            bSlider.addEventListener("input", updateColorFromSliders);
+            setColor(currentColor);
+
+            const canvas = document.getElementById("draw-canvas"),
+                ctx = canvas.getContext("2d");
+            const sizeSlider = document.getElementById("draw-size"),
+                eraserBtn = document.getElementById("draw-eraser");
+            const clearBtn = document.getElementById("draw-clear"),
+                submitBtn = document.getElementById("draw-submit");
+            const statusEl = document.getElementById("draw-status"),
+                authorEl = document.getElementById("draw-author");
+            let drawing = false,
+                erasing = false;
+
+            const getPos = (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = canvas.width / rect.width,
+                    scaleY = canvas.height / rect.height;
+                const src = e.touches ? e.touches[0] : e;
+                return {
+                    x: (src.clientX - rect.left) * scaleX,
+                    y: (src.clientY - rect.top) * scaleY,
+                };
+            };
+
+            canvas.addEventListener("mousedown", (e) => {
+                e.stopPropagation();
+                drawing = true;
+                ctx.beginPath();
+                const p = getPos(e);
+                ctx.moveTo(p.x, p.y);
+            });
+            function handleDrawing(p) {
+                if (!drawing) return;
+
+                ctx.lineWidth = sizeSlider.value;
+                ctx.lineCap = "round";
+
+                if (erasing) {
+                    ctx.globalCompositeOperation = "destination-out";
+                    ctx.strokeStyle = "rgba(0,0,0,1)"; // Must be opaque to "cut" through
+                } else {
+                    ctx.globalCompositeOperation = "source-over";
+                    ctx.strokeStyle = currentColor;
+                }
+
+                ctx.lineTo(p.x, p.y);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+            }
+
+            canvas.addEventListener("mousemove", (e) => {
+                handleDrawing(getPos(e));
+            });
+
+            canvas.addEventListener(
+                "touchmove",
+                (e) => {
+                    e.preventDefault();
+                    handleDrawing(getPos(e));
+                },
+                { passive: false }
+            );
+
+            canvas.addEventListener("mouseup", () => (drawing = false));
+            canvas.addEventListener("mouseleave", () => (drawing = false));
+            canvas.addEventListener(
+                "touchstart",
+                (e) => {
+                    e.preventDefault();
+                    drawing = true;
+                    ctx.beginPath();
+                    const p = getPos(e);
+                    ctx.moveTo(p.x, p.y);
+                },
+                { passive: false }
+            );
+            canvas.addEventListener("touchend", () => {
+                drawing = false;
+            });
+
+            eraserBtn.addEventListener("click", () => {
+                erasing = !erasing;
+                eraserBtn.textContent = erasing ? "Pen ✏️" : "Eraser";
+                canvas.style.cursor = erasing ? "cell" : "url(cursorpen.png) 16 16, crosshair";
+            });
+            clearBtn.addEventListener("click", () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            });
+
+            submitBtn.addEventListener("click", async () => {
+                statusEl.textContent = "Saving...";
+                submitBtn.disabled = true;
+                const author = authorEl.value.trim() || "Anonymous",
+                    timestamp = Date.now();
+                const filename = `drawing-${timestamp}.png`,
+                    base64 = canvas.toDataURL("image/png").split(",");
+                try {
+                    //const res = await fetch("https://drawbox.celes-meh.workers.dev", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            type: "submit",
+                            filename,
+                            base64,
+                            author,
+                        }),
+                    });
+                    if (res.ok) {
+                        statusEl.textContent = "✓ Saved! Gallery updated.";
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        authorEl.value = "";
+                        loadDrawingsGallery();
+                    } else {
+                        const err = await res.json();
+                        statusEl.textContent = `Error: ${err.message}`;
+                    }
+                } catch (e) {
+                    statusEl.textContent = "Network error — try again.";
+                }
+                submitBtn.disabled = false;
+            });
+            // ===== D-PAD GALLERY SCROLL =====
+            const galleryScreen = document.getElementById("drawings-grid");
+            const scrollAmount = 150;
+
+            document.querySelector(".ds-dpad-up").addEventListener("click", () => {
+                galleryScreen.scrollBy({
+                    top: -scrollAmount,
+                    behavior: "smooth",
+                });
+            });
+            document.querySelector(".ds-dpad-down").addEventListener("click", () => {
+                galleryScreen.scrollBy({
+                    top: scrollAmount,
+                    behavior: "smooth",
+                });
+            });
+            document.querySelector(".ds-dpad-left").addEventListener("click", () => {
+                galleryScreen.scrollBy({
+                    left: -scrollAmount,
+                    behavior: "smooth",
+                });
+            });
+            document.querySelector(".ds-dpad-right").addEventListener("click", () => {
+                galleryScreen.scrollBy({
+                    left: scrollAmount,
+                    behavior: "smooth",
+                });
+            });
+
+            async function loadDrawingsGallery() {
+                const grid = document.getElementById("drawings-grid");
+                grid.innerHTML = "<p>Loading...</p>";
+                try {
+                    const res = await fetch("https://drawbox.celes-meh.workers.dev", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ type: "list" }),
+                    });
+                    const files = await res.json();
+                    const drawings = files
+                        .filter((f) => f.name.endsWith(".png"))
+                        .sort((a, b) => b.name.localeCompare(a.name));
+                    if (!drawings.length) {
+                        grid.innerHTML = "<p>No drawings yet — be the first!</p>";
+                        return;
+                    }
+                    grid.innerHTML = "";
+                    drawings.forEach((file) => {
+                        const wrapper = document.createElement("div");
+                        wrapper.className = "gallery-item";
+                        const img = document.createElement("img");
+                        img.src = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/drawings/${file.name}`;
+                        img.alt = file.name;
+                        img.addEventListener("click", () => openImageWindow(img.src, img.alt));
+                        const star = document.createElement("button");
+                        star.textContent = "✏️";
+                        star.className = "gallery-star";
+                        star.title = "Add to Hall of Fame";
+                        star.addEventListener("click", (e) => {
+                            e.stopPropagation();
+                            addToHallOfFame(img.src);
+                        });
+                        wrapper.appendChild(img);
+                        wrapper.appendChild(star);
+                        grid.appendChild(wrapper);
+                    });
+                } catch (e) {
+                    grid.innerHTML = "<p>Could not load drawings.</p>";
+                }
+            }
+
+            loadDrawingsGallery();
+            loadHallOfFame();
+        </script>
+        
+    </body>
+</html>
