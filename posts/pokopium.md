@@ -4,9 +4,6 @@ date: 2026-03-13
 tags: Pokemon, games, reviews, blabbing
 ---
 
-
-### **Pokopium, or How the State of the World Brought Me Right Back to Nintendo**
-
 So you might be wondering how the US going to war got me to play a game on a console that I didn't even think I would purchase, but honestly I think I want to ask you- aside from the economy, possibly crippling depression, hopelessness when faced with the state of the world, and a bank account geared more towards necessities; what is stopping YOU from playing this fuckass game.
 
 Which, honestly, valid.
